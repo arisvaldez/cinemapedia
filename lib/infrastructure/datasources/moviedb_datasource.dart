@@ -1,11 +1,11 @@
 import 'package:cinemapedia/config/constants/environment.dart';
-import 'package:cinemapedia/domain/datasources/movie_datasource.dart';
+import 'package:cinemapedia/domain/datasources/imovie_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/infrastructure/mappers/movie_mapper.dart';
 import 'package:cinemapedia/infrastructure/models/moviedb/moviedb_response.dart';
 import 'package:dio/dio.dart';
 
-class MoviedbDatasource extends MovieDatasource {
+class MoviedbDatasource extends IMovieDatasource {
   final dio = Dio(
     BaseOptions(baseUrl: 'https://api.themoviedb.org/3', queryParameters: {
       'api_key': Environment.theMovieDbKey,
