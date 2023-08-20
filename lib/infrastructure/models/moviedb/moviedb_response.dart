@@ -6,18 +6,18 @@ import 'dart:convert';
 
 import 'movie_moviedb.dart';
 
-MovieDbResponse movieDbResonseFromJson(String str) => MovieDbResponse.fromJson(json.decode(str));
+MovieDBResponse movieDbResonseFromJson(String str) => MovieDBResponse.fromJson(json.decode(str));
 
-String movieDbResonseToJson(MovieDbResponse data) => json.encode(data.toJson());
+String movieDbResonseToJson(MovieDBResponse data) => json.encode(data.toJson());
 
-class MovieDbResponse {
+class MovieDBResponse {
     final Dates? dates;
     final int page;
     final List<MovieMovieDB> results;
     final int totalPages;
     final int totalResults;
 
-    MovieDbResponse({
+    MovieDBResponse({
         required this.dates,
         required this.page,
         required this.results,
@@ -25,7 +25,7 @@ class MovieDbResponse {
         required this.totalResults,
     });
 
-    factory MovieDbResponse.fromJson(Map<String, dynamic> json) => MovieDbResponse(
+    factory MovieDBResponse.fromJson(Map<String, dynamic> json) => MovieDBResponse(
         dates:json['dates'] ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
         results: List<MovieMovieDB>.from(json["results"].map((x) => MovieMovieDB.fromJson(x))),
