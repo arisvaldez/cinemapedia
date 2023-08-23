@@ -28,15 +28,64 @@ class _HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
-    final nowPlayingMovie = ref.watch(movieSlideshowProvider);
-    return Column(
-      children: [
-        const CustomAppbar(),
-        MovieSlideshow(movies: nowPlayingMovie),
-        MovieHorizontalListview(
-          movies: nowPlayingMovie,
-          title: 'En cines',
-          subTitle: 'Lunes 20',
+    final slideShowMovie = ref.watch(movieSlideshowProvider);
+    
+    final nowPlayingMovie = ref.watch(nowPlayingMoviesProvider);
+    final popularMovie = ref.watch(popularMoviesProvider);
+    final topRatedMovie = ref.watch(topRatedMoviesProvider);
+    final upcomingMovie = ref.watch(upcomingMoviesProvider);
+    
+    return Placeholder();
+ 
+
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(),
+            titlePadding: EdgeInsets.zero,
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                MovieSlideshow(movies: slideShowMovie),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovie,
+                  title: 'Paying Now',
+                  subTitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(nowPlayingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: popularMovie,
+                  title: 'Popular',
+                  subTitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(popularMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: topRatedMovie,
+                  title: 'Top Rated',
+                  subTitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(topRatedMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+                MovieHorizontalListview(
+                  movies: upcomingMovie,
+                  title: 'Upcoming',
+                  subTitle: 'Lunes 20',
+                  loadNextPage: () => ref
+                      .read(upcomingMoviesProvider.notifier)
+                      .loadNextPage(),
+                ),
+              ],
+            );
+          }, childCount: 1),
         ),
       ],
     );
@@ -46,5 +95,8 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
   }
 }
