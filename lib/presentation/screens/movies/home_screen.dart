@@ -28,15 +28,15 @@ class _HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if (initialLoading) return const FullScreenLoader();
+
     final slideShowMovie = ref.watch(movieSlideshowProvider);
-    
     final nowPlayingMovie = ref.watch(nowPlayingMoviesProvider);
     final popularMovie = ref.watch(popularMoviesProvider);
     final topRatedMovie = ref.watch(topRatedMoviesProvider);
     final upcomingMovie = ref.watch(upcomingMoviesProvider);
-    
-    return Placeholder();
- 
 
     return CustomScrollView(
       slivers: [
@@ -63,25 +63,22 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   movies: popularMovie,
                   title: 'Popular',
                   subTitle: 'Lunes 20',
-                  loadNextPage: () => ref
-                      .read(popularMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(popularMoviesProvider.notifier).loadNextPage(),
                 ),
                 MovieHorizontalListview(
                   movies: topRatedMovie,
                   title: 'Top Rated',
                   subTitle: 'Lunes 20',
-                  loadNextPage: () => ref
-                      .read(topRatedMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
                 ),
                 MovieHorizontalListview(
                   movies: upcomingMovie,
                   title: 'Upcoming',
                   subTitle: 'Lunes 20',
-                  loadNextPage: () => ref
-                      .read(upcomingMoviesProvider.notifier)
-                      .loadNextPage(),
+                  loadNextPage: () =>
+                      ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
                 ),
               ],
             );

@@ -61,7 +61,7 @@ class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (builder, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               }),
         ),
       ]),
@@ -85,6 +85,7 @@ class _Slide extends StatelessWidget {
         children: [
           SizedBox(
             width: 150,
+            height: 225,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
@@ -92,8 +93,19 @@ class _Slide extends StatelessWidget {
                 width: 150,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress != null) {
-                    return const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2));
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: 150,
+                        height: 225,
+                        decoration: const BoxDecoration(
+                          color: Colors.black12,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(color: Colors.black12, blurRadius: .6)
+                          ],
+                        ),
+                      ),
+                    );
                   }
                   return FadeIn(child: child);
                 },
@@ -143,7 +155,8 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleMedium;
+    final titleStyle = Theme.of(context).textTheme.titleLarge;
+
     return Container(
       padding: const EdgeInsets.only(top: 10),
       margin: const EdgeInsets.symmetric(horizontal: 10),
