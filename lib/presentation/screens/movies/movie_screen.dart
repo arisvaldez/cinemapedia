@@ -1,4 +1,5 @@
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/providers/actors/actors_by_movie_provider.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_info_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,8 +21,9 @@ class MovieScreen extends ConsumerStatefulWidget {
 class MovieScreenState extends ConsumerState<MovieScreen> {
   @override
   void initState() {
-    ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
     super.initState();
+    ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -143,7 +145,7 @@ class _MovieDetails extends StatelessWidget {
                   width: size.width * .3,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               SizedBox(
                 width: (size.width - 40) * 0.7,
                 child: Column(
@@ -172,8 +174,67 @@ class _MovieDetails extends StatelessWidget {
                 ))
           ]),
         ),
+        _Actors(movieId: movie.id.toString()),
         const SizedBox(height: 100),
       ],
+    );
+  }
+}
+
+class _Actors extends ConsumerWidget {
+  final String movieId;
+
+  const _Actors({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final actorProvider = ref.watch(actorByMovieProvider);
+
+    if (actorProvider[movieId] == null) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
+
+    final actors = actorProvider[movieId];
+
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actors!.length,
+        itemBuilder: (context, index) {
+          final actor = actors[index];
+
+          return Container(
+            padding: const EdgeInsets.all(8.0),
+            width: 135,
+            child: Column(children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: actor.profilePath == 'no-image'
+                    ? Image.asset(
+                        'assets/profile-placeholder.png',
+                        width: 135,
+                        height: 180,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.network(
+                        actor.profilePath,
+                        width: 135,
+                        height: 180,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+              const SizedBox(height: 5),
+              Text(actor.name, maxLines: 2),
+              Text(
+                actor.character ?? '',
+                maxLines: 2,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
+            ]),
+          );
+        },
+      ),
     );
   }
 }
