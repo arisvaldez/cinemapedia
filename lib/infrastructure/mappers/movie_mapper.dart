@@ -23,7 +23,7 @@ class MovieMapper {
       voteAverage: movieDB.voteAverage,
       voteCount: movieDB.voteCount);
 
-  static Movie MovieDetailsToEntity(MovieDetails movieDB) => Movie(
+  static Movie movieDetailsToEntity(MovieDetails movieDB) => Movie(
       adult: movieDB.adult,
       backdropPath: movieDB.backdropPath != ''
           ? 'https://image.tmdb.org/t/p/original${movieDB.backdropPath}'

@@ -10,7 +10,7 @@ class MoviedbDatasource extends IMovieDatasource {
   final dio = Dio(
     BaseOptions(baseUrl: 'https://api.themoviedb.org/3', queryParameters: {
       'api_key': Environment.theMovieDbKey,
-      'languaje': 'es-MX'
+      'language': 'es-MX'
     }),
   );
 
@@ -59,7 +59,7 @@ class MoviedbDatasource extends IMovieDatasource {
     }
 
     final movieDetails = MovieDetails.fromJson(response.data);
-    final Movie movie = MovieMapper.MovieDetailsToEntity(movieDetails);
+    final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
 
     return movie;
   }
