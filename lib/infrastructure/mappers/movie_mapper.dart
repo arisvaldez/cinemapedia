@@ -16,8 +16,8 @@ class MovieMapper {
       popularity: movieDB.popularity,
       posterPath: movieDB.posterPath != ''
           ? 'https://image.tmdb.org/t/p/original${movieDB.posterPath}'
-          : 'no-poster',
-      releaseDate: movieDB.releaseDate,
+          : 'https://www.jakartaplayers.org/uploads/1/2/5/5/12551960/2297419_orig.jpg',
+      releaseDate: movieDB.releaseDate ?? DateTime.now(),
       title: movieDB.title,
       video: movieDB.video,
       voteAverage: movieDB.voteAverage,
@@ -36,7 +36,7 @@ class MovieMapper {
       popularity: movieDB.popularity,
       posterPath: movieDB.posterPath != ''
           ? 'https://image.tmdb.org/t/p/original${movieDB.posterPath}'
-          : 'no-poster',
+          : 'https://www.jakartaplayers.org/uploads/1/2/5/5/12551960/2297419_orig.jpg',
       releaseDate: movieDB.releaseDate,
       title: movieDB.title,
       video: movieDB.video,

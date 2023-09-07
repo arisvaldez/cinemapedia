@@ -14,10 +14,11 @@ class MoviedbDatasource extends IMovieDatasource {
     }),
   );
 
-  Future<List<Movie>> _getMovies({required String url, int page = 1}) async {
+  Future<List<Movie>> _getMovies(
+      {required String url, int page = 1, query = ''}) async {
     final response = await dio.get(
       url,
-      queryParameters: {'page': page},
+      queryParameters: {'page': page, 'query': query},
     );
 
     final movieDBResponse = MovieDBResponse.fromJson(response.data);
@@ -62,5 +63,10 @@ class MoviedbDatasource extends IMovieDatasource {
     final Movie movie = MovieMapper.movieDetailsToEntity(movieDetails);
 
     return movie;
+  }
+
+  @override
+  Future<List<Movie>> search(String query) async {
+    return await _getMovies(url: '/search/movie', query: query);
   }
 }
